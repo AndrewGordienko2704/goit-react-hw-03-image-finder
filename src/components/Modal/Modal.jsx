@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+
 import { Box, ModalContent } from './Modal.styled';
 
-const modalRoot = document.querySelector('#modal-root');
+const modalRoot = document.querySelector('#ModalRoot');
 
 export class Modal extends Component {
   componentDidMount() {
@@ -16,21 +17,20 @@ export class Modal extends Component {
 
   handleKeydown = e => {
     if (e.code === 'Escape') {
-      console.log('esc');
       this.props.onClose();
     }
   };
   handleBackdropClick = e => {
-    if (e.currentTarget === e.target) {
+    if (e.target === e.currentTarget) {
       this.props.onClose();
     }
   };
 
   render() {
     const { url, alt } = this.props;
-    const { handleBackdropClick } = this;
+    // const { handleBackdropClick } = this;
     return createPortal(
-      <Box onClick={handleBackdropClick}>
+      <Box onClick={this.handleBackdropClick} >
         <ModalContent>
           <img src={url} alt={alt} />
         </ModalContent>
@@ -40,5 +40,9 @@ export class Modal extends Component {
   }
 }
 Box.propTypes = {
+ 
   onClick: PropTypes.func.isRequired,
 };
+
+
+

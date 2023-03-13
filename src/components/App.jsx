@@ -20,7 +20,7 @@ export class App extends Component {
     largeUrl: null,
     tag: null,
   };
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
     if (
       prevState.searchQuery !== this.state.searchQuery ||
       prevState.page !== this.state.page

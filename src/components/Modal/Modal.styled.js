@@ -16,3 +16,4 @@ export const ModalContent = styled.div`
   max-height: calc(100vh - 150px);
   margin: 20px;
 `;
+
