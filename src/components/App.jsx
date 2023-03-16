@@ -19,7 +19,9 @@ export class App extends Component {
     error: null,
     largeUrl: null,
     tag: null,
+    showModal: false,
   };
+  
   componentDidUpdate(_, prevState) {
     if (
       prevState.searchQuery !== this.state.searchQuery ||
@@ -28,6 +30,7 @@ export class App extends Component {
       this.imgGalleryList(this.state.searchQuery, this.state.page);
     }
   }
+
   imgGalleryList = async (searchQuery, page) => {
     this.setState({ isLoader: true });
     try {
@@ -63,11 +66,16 @@ export class App extends Component {
     this.setState(prev => ({ page: prev.page + 1 }));
   };
 
-  onModalClose = () => {
-    this.setState({ largeUrl: null, tag: null });
+  openModal = (url, alt) => {
+    this.setState({ largeUrl: url, tag: alt });
+    this.toggleModal();
   };
 
-  openModal = (url, alt) => this.setState({ largeUrl: url, tag: alt });
+   toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    })); 
+  }
 
   render() {
     const {
@@ -79,9 +87,10 @@ export class App extends Component {
       error,
       largeUrl,
       tag,
+      showModal
     } = this.state;
 
-    const { handleSubmit, loadMore, openModal, onModalClose } = this;
+    const { handleSubmit, loadMore, openModal } = this;
 
     return (
       <Container>
@@ -97,16 +106,22 @@ export class App extends Component {
           }}
         />
         <Searchbar onSearch={handleSubmit} />
+
         {searchQuery && (
           <ImageGallery imageGallery={imageGallery} onOpenModal={openModal} />
         )}
-        {largeUrl && <Modal url={largeUrl} alt={tag} onClose={onModalClose} />}
+
+        {/* {largeUrl && <Modal url={largeUrl} alt={tag} onClose={onModalClose} />} */}
+        {showModal && <Modal url={largeUrl} alt={tag} onClose={this.toggleModal }></Modal>}
+        
         {isLoader && <Chip> {Spinner()} </Chip>}
 
         {isVisible && <Button loadMore={loadMore} />}
 
         {isEmpty && <Text> Sorry. There are no images ... </Text>}
+
         {error && <Text> Something went wrong. Try again later. </Text>}
+
       </Container>
     );
   }

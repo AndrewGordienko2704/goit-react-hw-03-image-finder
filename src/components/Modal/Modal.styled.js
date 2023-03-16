@@ -15,5 +15,6 @@ export const ModalContent = styled.div`
   max-width: calc(100vw - 110px);
   max-height: calc(100vh - 150px);
   margin: 20px;
-`;
+  background-color: #fff;
+  `;
 
